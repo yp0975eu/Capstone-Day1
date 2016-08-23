@@ -1,16 +1,49 @@
 from datetime import datetime
 
+
+class ProjectDatabase:
+    @staticmethod
+    def get_project(name):
+        with open('{}.txt'.format(name), 'r') as f:
+            project_name = f.readline()
+            project = Project(project_name)
+            for line in f:
+                line_parts = line.split(';')
+                username = line_parts[0]
+                hours = line_parts[1]
+                comment = line_parts[2]
+                project.add_entry(username, hours, comment)
+
+
+    @staticmethod
+    def save_project(project):
+        with open('{}.txt'.format(project.name), 'w') as f:
+            f.write(project.name)
+            for entry in project.entries:
+                f.write('{};{};{}'.format(entry.name, entry.time, entry.comment))
+
+
+    @staticmethod
+    def project_exists(name):
+        try:
+            open('{}'.format(name))
+        except IOError:
+            return False
+
+        return True
+
+
 class Project:
     def __init__(self, project_name):
         self.name = project_name
         self.users = []
         self.entries = []
 
-    def add_entry(self, username, start, stop, comment):
+    def add_entry(self, username, time, comment):
         if username not in self.users:
             self.users.append(username)
 
-        self.entries.append(Entry(username, start, stop, comment))
+        self.entries.append(Entry(username, time, comment))
 
     def get_report(self):
         return
