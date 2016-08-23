@@ -84,6 +84,14 @@ if __name__ == '__main__':
     if Project.project_exists(project_name):
         project = ProjectDatabase.get_project(project_name)
     else:
-        project = ProjectDatabase.create_new_project(project_name)
+        project = Project(project_name)
+
+    # TODO
+    #menu loop
+    #process menu selection
+    #if 1 add entry
+    #if 2 show_report
+    #if 3 quit
 
     pass
+
